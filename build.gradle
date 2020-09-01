@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+  ext.kotlin_version = '1.4.0'
   repositories {
     google()
     maven {
@@ -13,8 +14,8 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.1'
-
+    classpath 'com.android.tools.build:gradle:4.1.0-rc02'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
   }
@@ -39,4 +40,18 @@ allprojects {
 
 task clean(type: Delete) {
   delete rootProject.buildDir
+}
+
+def version_Name = "1.0.0"
+def version_Code = (version_Name.replace(".", "")).toInteger() * 1000
+ext {
+  android = [
+          compileSdkVersion      : 30,
+          minSdkVersion          : 21,
+          targetSdkVersion       : 30,
+          versionName            : version_Name,
+          versionCode            : version_Code,
+          javaSourceCompatibility: JavaVersion.VERSION_1_8,
+          javaTargetCompatibility: JavaVersion.VERSION_1_8
+  ]
 }
