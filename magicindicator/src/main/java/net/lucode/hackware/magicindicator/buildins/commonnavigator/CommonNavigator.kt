@@ -30,12 +30,9 @@ import kotlin.math.min
 class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigator, OnNavigatorScrollListener {
     private var mScrollView: HorizontalScrollView? = null
     var titleContainer: LinearLayout? = null
-        private set
     private var mIndicatorContainer: LinearLayout? = null
-    var pagerIndicator: IPagerIndicator? = null
-        private set
-    var adapter: CommonNavigatorAdapter? = null
-        private set
+    private var pagerIndicator: IPagerIndicator? = null
+    private var adapter: CommonNavigatorAdapter? = null
     private val mNavigatorHelper: NavigatorHelper = NavigatorHelper()
     /**
      * 提供给外部的参数配置
@@ -51,10 +48,10 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
     var isFollowTouch = true // 是否手指跟随滚动
     var rightPadding = 0
     var leftPadding = 0
-    var isIndicatorOnTop // 指示器是否在title上层，默认为下层
-            = false
-    private var mSkimOver // 跨多页切换时，中间页是否显示 "掠过" 效果
-            = false
+    var isIndicatorOnTop = false// 指示器是否在title上层，默认为下层
+
+    private var mSkimOver = false// 跨多页切换时，中间页是否显示 "掠过" 效果
+
     var isReselectWhenLayout = true // PositionData准备好时，是否重新选中当前页，为true可保证在极端情况下指示器状态正确
 
     /** */ // 保存每个title的位置信息，为扩展indicator提供保障
@@ -74,6 +71,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
     override fun notifyDataSetChanged() {
         adapter?.notifyDataSetChanged()
     }
+
 
     fun setAdapter(adapter: CommonNavigatorAdapter) {
         if (this.adapter === adapter) {

@@ -29,7 +29,7 @@ import net.lucode.hackware.magicindicatordemo.ext.titles.ScaleTransitionPagerTit
 import java.util.*
 
 class FixedTabExampleActivity : AppCompatActivity() {
-    private val mDataList: List<String>? = Arrays.asList(*CHANNELS)
+    private val mDataList: MutableList<String> = mutableListOf("KITKAT", "NOUGAT", "DONUT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +46,11 @@ class FixedTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#88ffffff")
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -78,11 +78,11 @@ class FixedTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.textSize = 18f
                 simplePagerTitleView.normalColor = Color.parseColor("#616161")
                 simplePagerTitleView.selectedColor = Color.parseColor("#f57c00")
@@ -124,11 +124,11 @@ class FixedTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val clipPagerTitleView = ClipPagerTitleView(context)
-                clipPagerTitleView.text = mDataList!![index]
+                clipPagerTitleView.text = mDataList[index]
                 clipPagerTitleView.textColor = Color.parseColor("#e94220")
                 clipPagerTitleView.clipColor = Color.WHITE
                 clipPagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -156,13 +156,13 @@ class FixedTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int = mDataList!!.size
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.WHITE
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
                 return simplePagerTitleView
             }
@@ -177,8 +177,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
         })
         magic_indicator4.setNavigator(commonNavigator)
         val titleContainer: LinearLayout? = commonNavigator.titleContainer // must after setNavigator
-        titleContainer!!.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
-        titleContainer.dividerDrawable = object : ColorDrawable() {
+        titleContainer?.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
+        titleContainer?.dividerDrawable = object : ColorDrawable() {
             override fun getIntrinsicWidth(): Int {
                 return dip2px(this@FixedTabExampleActivity, 15.0)
             }
@@ -193,7 +193,5 @@ class FixedTabExampleActivity : AppCompatActivity() {
         })
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("KITKAT", "NOUGAT", "DONUT")
-    }
+
 }

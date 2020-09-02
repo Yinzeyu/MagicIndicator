@@ -34,7 +34,7 @@ import net.lucode.hackware.magicindicatordemo.ext.titles.ScaleTransitionPagerTit
 import java.util.*
 
 class BadgeTabExampleActivity : AppCompatActivity() {
-    private val mDataList = Arrays.asList(*CHANNELS)
+    private val mDataList :MutableList<String>  = mutableListOf("KITKAT", "NOUGAT", "DONUT")
     private val mExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -234,9 +234,5 @@ class BadgeTabExampleActivity : AppCompatActivity() {
             }
         }
         bind(magicIndicator, view_pager)
-    }
-
-    companion object {
-        private val CHANNELS = arrayOf("KITKAT", "NOUGAT", "DONUT")
     }
 }

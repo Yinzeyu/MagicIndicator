@@ -18,46 +18,46 @@ import net.lucode.hackware.magicindicator.dip2px
  * Created by hackware on 2016/6/26.
  */
 class WrapPagerIndicator(context: Context) : View(context), IPagerIndicator {
-    private var verticalPadding =dip2px(context, 6.0)
+    private var verticalPadding = dip2px(context, 6.0)
     private var horizontalPadding = dip2px(context, 10.0)
     var fillColor = 0
     private var mRoundRadius = 0f
-    private var mStartInterpolator: Interpolator? = LinearInterpolator()
-    private var mEndInterpolator: Interpolator? = LinearInterpolator()
-    private var mPositionDataList: List<PositionData>? = null
-    var paint: Paint =  Paint(Paint.ANTI_ALIAS_FLAG)
+    private var startInterpolator: Interpolator = LinearInterpolator()
+    private var endInterpolator: Interpolator = LinearInterpolator()
+    private var mPositionDataList: List<PositionData> = mutableListOf()
+    var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRect = RectF()
     private var mRoundRadiusSet = false
+
     init {
         paint.style = Paint.Style.FILL
     }
+
     override fun onDraw(canvas: Canvas) {
         paint.color = fillColor
         canvas.drawRoundRect(mRect, mRoundRadius, mRoundRadius, paint)
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        mPositionDataList?.let {
-            if (it.isEmpty()) {
-                return
-            }
-            // 计算锚点位置
-            val current: PositionData = FragmentContainerHelper.getImitativePositionData(it, position)
-            val next: PositionData = FragmentContainerHelper.getImitativePositionData(it, position + 1)
-            mRect.left = current.mContentLeft - horizontalPadding + (next.mContentLeft - current.mContentLeft) * mEndInterpolator!!.getInterpolation(positionOffset)
-            mRect.top = current.mContentTop - verticalPadding.toFloat()
-            mRect.right = current.mContentRight + horizontalPadding + (next.mContentRight - current.mContentRight) * mStartInterpolator!!.getInterpolation(positionOffset)
-            mRect.bottom = current.mContentBottom + verticalPadding.toFloat()
-            if (!mRoundRadiusSet) {
-                mRoundRadius = mRect.height() / 2
-            }
-            invalidate()
+        if (mPositionDataList.isEmpty()) {
+            return
         }
+        // 计算锚点位置
+        val current: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position)
+        val next: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position + 1)
+        mRect.left = current.mContentLeft - horizontalPadding + (next.mContentLeft - current.mContentLeft) * endInterpolator.getInterpolation(positionOffset)
+        mRect.top = current.mContentTop - verticalPadding.toFloat()
+        mRect.right = current.mContentRight + horizontalPadding + (next.mContentRight - current.mContentRight) * startInterpolator.getInterpolation(positionOffset)
+        mRect.bottom = current.mContentBottom + verticalPadding.toFloat()
+        if (!mRoundRadiusSet) {
+            mRoundRadius = mRect.height() / 2
+        }
+        invalidate()
     }
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 
@@ -66,22 +66,6 @@ class WrapPagerIndicator(context: Context) : View(context), IPagerIndicator {
         set(roundRadius) {
             mRoundRadius = roundRadius
             mRoundRadiusSet = true
-        }
-    var startInterpolator: Interpolator?
-        get() = mStartInterpolator
-        set(startInterpolator) {
-            mStartInterpolator = startInterpolator
-            if (mStartInterpolator == null) {
-                mStartInterpolator = LinearInterpolator()
-            }
-        }
-    var endInterpolator: Interpolator?
-        get() = mEndInterpolator
-        set(endInterpolator) {
-            mEndInterpolator = endInterpolator
-            if (mEndInterpolator == null) {
-                mEndInterpolator = LinearInterpolator()
-            }
         }
 
 

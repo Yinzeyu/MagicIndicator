@@ -20,7 +20,7 @@ import net.lucode.hackware.magicindicatordemo.R
 import java.util.*
 
 class LoadCustomLayoutExampleActivity : AppCompatActivity() {
-    private val mDataList: List<String> = Arrays.asList(*CHANNELS)
+    private val mDataList: MutableList<String> = mutableListOf("NOUGAT", "DONUT", "ECLAIR", "KITKAT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +77,4 @@ class LoadCustomLayoutExampleActivity : AppCompatActivity() {
         bind(magic_indicator1, view_pager)
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("NOUGAT", "DONUT", "ECLAIR", "KITKAT")
-    }
 }

@@ -14,11 +14,9 @@ class NavigatorHelper {
     private val mLeavedPercents = SparseArray<Float>()
     private var mTotalCount = 0
     var currentIndex = 0
-        private set
     private var mLastIndex = 0
     private var mLastPositionOffsetSum = 0f
     var scrollState = 0
-        private set
     private var mSkimOver = false
     private var mNavigatorScrollListener: OnNavigatorScrollListener? = null
     fun onPageScrolled(position: Int, positionOffset: Float) {

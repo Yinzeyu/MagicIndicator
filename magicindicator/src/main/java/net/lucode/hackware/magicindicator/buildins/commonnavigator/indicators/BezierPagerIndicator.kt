@@ -22,7 +22,7 @@ import kotlin.math.abs
  * Created by hackware on 2016/6/26.
  */
 class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
-    private var mPositionDataList: List<PositionData>? = null
+    private var mPositionDataList: MutableList<PositionData> = mutableListOf()
     private var mLeftCircleRadius = 0f
     private var mLeftCircleX = 0f
     private var mRightCircleRadius = 0f
@@ -32,13 +32,14 @@ class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
     var minCircleRadius = dip2px(context, 2.0).toFloat()
     private var mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mPath = Path()
-     var mColors: MutableList<Int>? = null
-    private var mStartInterpolator: Interpolator? = AccelerateInterpolator()
-    private var mEndInterpolator: Interpolator? = DecelerateInterpolator()
+    var mColors: MutableList<Int>? = null
+    var startInterpolator: Interpolator = AccelerateInterpolator()
+    var endInterpolator: Interpolator = DecelerateInterpolator()
 
     init {
         mPaint.style = Paint.Style.FILL
     }
+
     override fun onDraw(canvas: Canvas) {
         canvas.drawCircle(mLeftCircleX, height - yOffset - maxCircleRadius, mLeftCircleRadius, mPaint)
         canvas.drawCircle(mRightCircleX, height - yOffset - maxCircleRadius, mRightCircleRadius, mPaint)
@@ -63,56 +64,38 @@ class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        mPositionDataList?.let {
-            if (it.isEmpty()) {
-                return
+        if (mPositionDataList.isEmpty()) {
+            return
+        }
+        mColors?.let { color ->
+            // 计算颜色
+            if (color.isNotEmpty()) {
+                val currentColor = color[abs(position) % color.size]
+                val nextColor = color[abs(position + 1) % color.size]
+                mPaint.color = eval(positionOffset, currentColor, nextColor)
             }
-            mColors?.let { color ->
-                // 计算颜色
-                if (color.isNotEmpty()) {
-                    val currentColor = color[abs(position) % color.size]
-                    val nextColor = color[abs(position + 1) % color.size]
-                    mPaint.color = eval(positionOffset, currentColor, nextColor)
-                }
-            }
-
-
-            // 计算锚点位置
-            val current: PositionData = FragmentContainerHelper.getImitativePositionData(it, position)
-            val next: PositionData = FragmentContainerHelper.getImitativePositionData(it, position + 1)
-            val leftX = current.mLeft + (current.mRight - current.mLeft) / 2.toFloat()
-            val rightX = next.mLeft + (next.mRight - next.mLeft) / 2.toFloat()
-            mLeftCircleX = leftX + (rightX - leftX) * mStartInterpolator!!.getInterpolation(positionOffset)
-            mRightCircleX = leftX + (rightX - leftX) * mEndInterpolator!!.getInterpolation(positionOffset)
-            mLeftCircleRadius = maxCircleRadius + (minCircleRadius - maxCircleRadius) * mEndInterpolator!!.getInterpolation(positionOffset)
-            mRightCircleRadius = minCircleRadius + (maxCircleRadius - minCircleRadius) * mStartInterpolator!!.getInterpolation(positionOffset)
-            invalidate()
         }
 
 
+        // 计算锚点位置
+        val current: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position)
+        val next: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position + 1)
+        val leftX = current.mLeft + (current.mRight - current.mLeft) / 2.toFloat()
+        val rightX = next.mLeft + (next.mRight - next.mLeft) / 2.toFloat()
+        mLeftCircleX = leftX + (rightX - leftX) * startInterpolator.getInterpolation(positionOffset)
+        mRightCircleX = leftX + (rightX - leftX) * endInterpolator.getInterpolation(positionOffset)
+        mLeftCircleRadius = maxCircleRadius + (minCircleRadius - maxCircleRadius) * endInterpolator.getInterpolation(positionOffset)
+        mRightCircleRadius = minCircleRadius + (maxCircleRadius - minCircleRadius) * startInterpolator.getInterpolation(positionOffset)
+        invalidate()
     }
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 
     fun setColors(vararg colors: Int?) {
         mColors = Arrays.asList(*colors)
-    }
-
-    fun setStartInterpolator(startInterpolator: Interpolator?) {
-        mStartInterpolator = startInterpolator
-        if (mStartInterpolator == null) {
-            mStartInterpolator = AccelerateInterpolator()
-        }
-    }
-
-    fun setEndInterpolator(endInterpolator: Interpolator?) {
-        mEndInterpolator = endInterpolator
-        if (mEndInterpolator == null) {
-            mEndInterpolator = DecelerateInterpolator()
-        }
     }
 }

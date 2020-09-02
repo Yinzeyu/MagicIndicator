@@ -21,7 +21,7 @@ class TestPagerIndicator(context: Context) : View(context), IPagerIndicator {
     var innerRectColor = Color.GREEN
     private val mOutRect = RectF()
     private val mInnerRect = RectF()
-    private var mPositionDataList: List<PositionData>? = null
+    private var mPositionDataList: MutableList<PositionData> = mutableListOf()
     init {
         mPaint.style = Paint.Style.STROKE
     }
@@ -54,7 +54,7 @@ class TestPagerIndicator(context: Context) : View(context), IPagerIndicator {
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 }

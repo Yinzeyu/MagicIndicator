@@ -25,7 +25,7 @@ class FragmentContainerHelper {
     private var mInterpolator: Interpolator = AccelerateDecelerateInterpolator()
     private val mAnimatorListener: AnimatorListener = object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator) {
-            dispatchPageScrollStateChanged(ScrollState.Companion.SCROLL_STATE_IDLE)
+            dispatchPageScrollStateChanged(ScrollState.SCROLL_STATE_IDLE)
             mScrollAnimator = null
         }
     }
@@ -121,7 +121,6 @@ class FragmentContainerHelper {
          * @param index
          * @return
          */
-        @kotlin.jvm.JvmStatic
         fun getImitativePositionData(positionDataList: List<PositionData>, index: Int): PositionData {
             return if (index >= 0 && index <= positionDataList.size - 1) { // 越界后，返回假的PositionData
                 positionDataList[index]

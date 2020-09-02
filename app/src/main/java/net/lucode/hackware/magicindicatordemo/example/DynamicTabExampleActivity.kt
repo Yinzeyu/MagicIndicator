@@ -14,10 +14,12 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ClipPagerTitleView
 import net.lucode.hackware.magicindicatordemo.R
+import net.lucode.hackware.magicindicatordemo.ext.click
 import java.util.*
+import kotlin.math.abs
 
-class DynamicTabExampleActivity constructor() : AppCompatActivity() {
-    private val mDataList: MutableList<String> = ArrayList(Arrays.asList(*CHANNELS))
+class DynamicTabExampleActivity : AppCompatActivity() {
+    private val mDataList: MutableList<String> = mutableListOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     private var mCommonNavigator: CommonNavigator? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +30,15 @@ class DynamicTabExampleActivity constructor() : AppCompatActivity() {
         mCommonNavigator = CommonNavigator(this)
         mCommonNavigator?.isSkimOver = true
         mCommonNavigator?.setAdapter(object : CommonNavigatorAdapter() {
-
-            override val count: Int = mDataList.size
+            /*这个东西必须写get 方法  因为下面的randomPage 刷新之后上一次的size 值没有更新上去*/
+            override val count: Int get() =   mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
-                val clipPagerTitleView = ClipPagerTitleView((context)!!)
+                val clipPagerTitleView = ClipPagerTitleView(context)
                 clipPagerTitleView.text = mDataList[index]
                 clipPagerTitleView.textColor = Color.parseColor("#f2c4c4")
                 clipPagerTitleView.clipColor = Color.WHITE
-                clipPagerTitleView.setOnClickListener { view_pager.currentItem = index }
+                clipPagerTitleView.click { view_pager.currentItem = index }
                 return clipPagerTitleView
             }
 
@@ -46,20 +48,20 @@ class DynamicTabExampleActivity constructor() : AppCompatActivity() {
         })
         magic_indicator1.setNavigator(mCommonNavigator!!)
         bind(magic_indicator1, view_pager)
+        btnrandom_page.click { randomPage() }
     }
 
     fun randomPage() {
+        val list = mutableListOf<String>()
+        list.addAll(mDataList)
         mDataList.clear()
-        val total: Int = Random().nextInt(CHANNELS.size)
+        val total: Int = abs( Random().nextInt(list.size))
         for (i in 0..total) {
-            mDataList.add(CHANNELS[i])
+            mDataList.add(list[i])
         }
-        mCommonNavigator!!.notifyDataSetChanged() // must call firstly
+        mCommonNavigator?.notifyDataSetChanged() // must call firstly
         mExamplePagerAdapter.notifyDataSetChanged()
         Toast.makeText(this, "" + mDataList.size + " page", Toast.LENGTH_SHORT).show()
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
-    }
 }

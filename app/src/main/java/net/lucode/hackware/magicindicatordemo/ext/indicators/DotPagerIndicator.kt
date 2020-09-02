@@ -14,25 +14,23 @@ import net.lucode.hackware.magicindicator.dip2px
  * Created by hackware on 2016/7/13.
  */
 class DotPagerIndicator(context: Context) : View(context), IPagerIndicator {
-    private var mDataList: List<PositionData>? = null
+    private var mDataList: List<PositionData> = mutableListOf()
     private var mRadius: Float
     private var mYOffset: Float
     private var mDotColor: Int
     private var mCircleCenterX = 0f
     private val mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     override fun onPageSelected(position: Int) {
-        mDataList?.let {
-            if (it.isEmpty()) {
-                return
-            }
-            val data = it[position]
-            mCircleCenterX = data.mLeft + data.width() / 2.toFloat()
-            invalidate()
+        if (mDataList.isEmpty()) {
+            return
         }
+        val data = mDataList[position]
+        mCircleCenterX = data.mLeft + data.width() / 2.toFloat()
+        invalidate()
 
     }
 
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mDataList = dataList
     }
 

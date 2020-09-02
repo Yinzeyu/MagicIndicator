@@ -35,8 +35,8 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
     var roundRadius = 0f
     var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
         private set
-    private var mPositionDataList: List<PositionData>? = null
-    var colors: MutableList<Int>? = null
+    private var mPositionDataList: MutableList<PositionData> = mutableListOf()
+    private var colors: MutableList<Int> = mutableListOf()
     private val mLineRect = RectF()
 
     init {
@@ -48,56 +48,54 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        mPositionDataList?.let {
-            if (it.isEmpty()) {
-                return
-            }
-            colors?.let { color ->
-                // 计算颜色
-                if (it.isNotEmpty()) {
-                    val currentColor = color[abs(position) % color.size]
-                    val nextColor = color[abs(position + 1) % color.size]
-                    paint.color = eval(positionOffset, currentColor, nextColor)
-                }
-            }
-            // 计算锚点位置
-            val current: PositionData = FragmentContainerHelper.getImitativePositionData(it, position)
-            val next: PositionData = FragmentContainerHelper.getImitativePositionData(it, position + 1)
-            val leftX: Float
-            val nextLeftX: Float
-            val rightX: Float
-            val nextRightX: Float
-            when (mMode) {
-                MODE_MATCH_EDGE -> {
-                    leftX = current.mLeft + xOffset
-                    nextLeftX = next.mLeft + xOffset
-                    rightX = current.mRight - xOffset
-                    nextRightX = next.mRight - xOffset
-                }
-                MODE_WRAP_CONTENT -> {
-                    leftX = current.mContentLeft + xOffset
-                    nextLeftX = next.mContentLeft + xOffset
-                    rightX = current.mContentRight - xOffset
-                    nextRightX = next.mContentRight - xOffset
-                }
-                else -> {    // MODE_EXACTLY
-                    leftX = current.mLeft + (current.width() - lineWidth) / 2
-                    nextLeftX = next.mLeft + (next.width() - lineWidth) / 2
-                    rightX = current.mLeft + (current.width() + lineWidth) / 2
-                    nextRightX = next.mLeft + (next.width() + lineWidth) / 2
-                }
-            }
-            mLineRect.left = leftX + (nextLeftX - leftX) * startInterpolator.getInterpolation(positionOffset)
-            mLineRect.right = rightX + (nextRightX - rightX) * endInterpolator.getInterpolation(positionOffset)
-            mLineRect.top = height - lineHeight - yOffset
-            mLineRect.bottom = height - yOffset
-            invalidate()
+        if (mPositionDataList.isEmpty()) {
+            return
         }
+        colors.let { color ->
+            // 计算颜色
+            if (mPositionDataList.isNotEmpty()) {
+                val currentColor = color[abs(position) % color.size]
+                val nextColor = color[abs(position + 1) % color.size]
+                paint.color = eval(positionOffset, currentColor, nextColor)
+            }
+        }
+        // 计算锚点位置
+        val current: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position)
+        val next: PositionData = FragmentContainerHelper.getImitativePositionData(mPositionDataList, position + 1)
+        val leftX: Float
+        val nextLeftX: Float
+        val rightX: Float
+        val nextRightX: Float
+        when (mMode) {
+            MODE_MATCH_EDGE -> {
+                leftX = current.mLeft + xOffset
+                nextLeftX = next.mLeft + xOffset
+                rightX = current.mRight - xOffset
+                nextRightX = next.mRight - xOffset
+            }
+            MODE_WRAP_CONTENT -> {
+                leftX = current.mContentLeft + xOffset
+                nextLeftX = next.mContentLeft + xOffset
+                rightX = current.mContentRight - xOffset
+                nextRightX = next.mContentRight - xOffset
+            }
+            else -> {    // MODE_EXACTLY
+                leftX = current.mLeft + (current.width() - lineWidth) / 2
+                nextLeftX = next.mLeft + (next.width() - lineWidth) / 2
+                rightX = current.mLeft + (current.width() + lineWidth) / 2
+                nextRightX = next.mLeft + (next.width() + lineWidth) / 2
+            }
+        }
+        mLineRect.left = leftX + (nextLeftX - leftX) * startInterpolator.getInterpolation(positionOffset)
+        mLineRect.right = rightX + (nextRightX - rightX) * endInterpolator.getInterpolation(positionOffset)
+        mLineRect.top = height - lineHeight - yOffset
+        mLineRect.bottom = height - yOffset
+        invalidate()
     }
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 
@@ -111,26 +109,9 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
             }
         }
 
-    fun setColors(vararg colors: Int?) {
-        this.colors = Arrays.asList(*colors)
+    fun setColors(vararg colors: Int) {
+        this.colors.addAll(colors.toMutableList())
     }
-
-//    var startInterpolator: Interpolator?
-//        get() = mStartInterpolator
-//        set(startInterpolator) {
-//            mStartInterpolator = startInterpolator
-//            if (mStartInterpolator == null) {
-//                mStartInterpolator = LinearInterpolator()
-//            }
-//        }
-//    var endInterpolator: Interpolator?
-//        get() = mEndInterpolator
-//        set(endInterpolator) {
-//            mEndInterpolator = endInterpolator
-//            if (mEndInterpolator == null) {
-//                mEndInterpolator = LinearInterpolator()
-//            }
-//        }
 
     companion object {
         const val MODE_MATCH_EDGE = 0 // 直线宽度 == title宽度 - 2 * mXOffset

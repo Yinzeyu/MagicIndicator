@@ -26,10 +26,9 @@ import net.lucode.hackware.magicindicator.getScreenWidth
 import net.lucode.hackware.magicindicatordemo.R
 import net.lucode.hackware.magicindicatordemo.ext.titles.ColorFlipPagerTitleView
 import net.lucode.hackware.magicindicatordemo.ext.titles.ScaleTransitionPagerTitleView
-import java.util.*
 
 class ScrollableTabExampleActivity : AppCompatActivity() {
-    private val mDataList: List<String>? = Arrays.asList(*CHANNELS)
+    private val mDataList: MutableList<String> = mutableListOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,11 +55,11 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int =mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val clipPagerTitleView = ClipPagerTitleView(context)
-                clipPagerTitleView.text = mDataList!![index]
+                clipPagerTitleView.text = mDataList[index]
                 clipPagerTitleView.textColor = Color.parseColor("#f2c4c4")
                 clipPagerTitleView.clipColor = Color.WHITE
                 clipPagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -82,11 +81,11 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
 
 
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView = SimplePagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#c8e6c9")
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.textSize = 12f
@@ -110,13 +109,13 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         magic_indicator3.setBackgroundColor(Color.BLACK)
         val commonNavigator = CommonNavigator(this)
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.WHITE
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
                 return simplePagerTitleView
             }
@@ -136,10 +135,10 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         magic_indicator4.setBackgroundColor(Color.parseColor("#455a64"))
         val commonNavigator = CommonNavigator(this)
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#88ffffff")
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -162,11 +161,11 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         val commonNavigator = CommonNavigator(this)
         commonNavigator.scrollPivotX = 0.8f
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.textSize = 18f
                 simplePagerTitleView.normalColor = Color.parseColor("#616161")
                 simplePagerTitleView.selectedColor = Color.parseColor("#f57c00")
@@ -192,11 +191,11 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         magic_indicator6.setBackgroundColor(Color.WHITE)
         val commonNavigator = CommonNavigator(this)
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.textSize = 18f
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.BLACK
@@ -219,10 +218,10 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         val commonNavigator7 = CommonNavigator(this)
         commonNavigator7.scrollPivotX = 0.65f
         commonNavigator7.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorFlipPagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#9e9e9e")
                 simplePagerTitleView.selectedColor = Color.parseColor("#00c853")
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -250,10 +249,10 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         val commonNavigator = CommonNavigator(this)
         commonNavigator.scrollPivotX = 0.35f
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView = SimplePagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#333333")
                 simplePagerTitleView.selectedColor = Color.parseColor("#e94220")
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -276,11 +275,11 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         val commonNavigator = CommonNavigator(this)
         commonNavigator.scrollPivotX = 0.15f
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView = SimplePagerTitleView(context)
-                simplePagerTitleView.text = mDataList!![index]
+                simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#333333")
                 simplePagerTitleView.selectedColor = Color.parseColor("#e94220")
                 simplePagerTitleView.setOnClickListener { view_pager.currentItem = index }
@@ -297,7 +296,4 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         bind(magicIndicator,view_pager)
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
-    }
 }

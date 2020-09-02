@@ -10,10 +10,9 @@ import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator
 import net.lucode.hackware.magicindicatordemo.R
 import net.lucode.hackware.magicindicatordemo.ext.navigator.ScaleCircleNavigator
-import java.util.*
 
-class CustomNavigatorExampleActivity constructor() : AppCompatActivity() {
-    private val mDataList: List<String> = Arrays.asList(*CHANNELS)
+class CustomNavigatorExampleActivity  : AppCompatActivity() {
+    private val mDataList: MutableList<String> = mutableListOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,38 +24,35 @@ class CustomNavigatorExampleActivity constructor() : AppCompatActivity() {
     }
 
     private fun initMagicIndicator1() {
-        val magicIndicator: MagicIndicator = findViewById<View>(R.id.magic_indicator1) as MagicIndicator
-        val circleNavigator: CircleNavigator = CircleNavigator(this)
-        circleNavigator.circleCount = CHANNELS.size
-        circleNavigator.circleColor = Color.RED
-        circleNavigator.circleClickListener = object : CircleNavigator.OnCircleClickListener {
-            public override fun onClick(index: Int) {
-                view_pager.setCurrentItem(index)
-            }
-        }
-        magicIndicator.setNavigator(circleNavigator)
-        bind(magicIndicator,view_pager)
-    }
-
-    private fun initMagicIndicator2() {
-        val magicIndicator: MagicIndicator = findViewById<View>(R.id.magic_indicator2) as MagicIndicator
         val circleNavigator = CircleNavigator(this)
-        circleNavigator.isFollowTouch = false
-        circleNavigator.circleCount = CHANNELS.size
+        circleNavigator.circleCount = mDataList.size
         circleNavigator.circleColor = Color.RED
         circleNavigator.circleClickListener = object : CircleNavigator.OnCircleClickListener {
             override fun onClick(index: Int) {
                 view_pager.currentItem = index
             }
         }
-        magicIndicator.setNavigator(circleNavigator)
-        bind(magicIndicator, view_pager)
+        magic_indicator1.setNavigator(circleNavigator)
+        bind(magic_indicator1,view_pager)
+    }
+
+    private fun initMagicIndicator2() {
+        val circleNavigator = CircleNavigator(this)
+        circleNavigator.isFollowTouch = false
+        circleNavigator.circleCount = mDataList.size
+        circleNavigator.circleColor = Color.RED
+        circleNavigator.circleClickListener = object : CircleNavigator.OnCircleClickListener {
+            override fun onClick(index: Int) {
+                view_pager.currentItem = index
+            }
+        }
+        magic_indicator2.setNavigator(circleNavigator)
+        bind(magic_indicator2, view_pager)
     }
 
     private fun initMagicIndicator3() {
-        val magicIndicator: MagicIndicator = findViewById<View>(R.id.magic_indicator3) as MagicIndicator
         val scaleCircleNavigator = ScaleCircleNavigator(this)
-        scaleCircleNavigator.setCircleCount(CHANNELS.size)
+        scaleCircleNavigator.setCircleCount(mDataList.size)
         scaleCircleNavigator.setNormalCircleColor(Color.LTGRAY)
         scaleCircleNavigator.setSelectedCircleColor(Color.DKGRAY)
         scaleCircleNavigator.setCircleClickListener(object : ScaleCircleNavigator.OnCircleClickListener {
@@ -64,11 +60,8 @@ class CustomNavigatorExampleActivity constructor() : AppCompatActivity() {
                 view_pager.currentItem = index
             }
         })
-        magicIndicator.setNavigator(scaleCircleNavigator)
-        bind(magicIndicator,view_pager)
+        magic_indicator3.setNavigator(scaleCircleNavigator)
+        bind(magic_indicator3,view_pager)
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "HONEYCOMB", "ICE_CREAM_SANDWICH", "JELLY_BEAN", "KITKAT", "LOLLIPOP", "M", "NOUGAT")
-    }
 }

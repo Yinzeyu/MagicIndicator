@@ -18,9 +18,9 @@
         android:layout_weight="1" />
 
     <Button
+        android:id="@+id/btnrandom_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="randomPage"
         android:text="@string/random_page" />
 
 </LinearLayout>

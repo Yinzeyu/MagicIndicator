@@ -18,7 +18,7 @@ import net.lucode.hackware.magicindicator.dip2px
  * Created by hackware on 2016/6/26.
  */
 class TriangularPagerIndicator(context: Context) : View(context), IPagerIndicator {
-    private var mPositionDataList: List<PositionData>? = null
+    private var mPositionDataList: List<PositionData> = mutableListOf()
     private var mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     var lineHeight = dip2px(context, 3.0)
     var lineColor = 0
@@ -74,7 +74,7 @@ class TriangularPagerIndicator(context: Context) : View(context), IPagerIndicato
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 

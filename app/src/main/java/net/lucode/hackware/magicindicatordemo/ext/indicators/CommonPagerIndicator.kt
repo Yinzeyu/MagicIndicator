@@ -27,66 +27,62 @@ class CommonPagerIndicator(context: Context?) : View(context), IPagerIndicator {
     var drawableWidth = 0f
     var yOffset = 0f
     var xOffset = 0f
-    private var mPositionDataList: List<PositionData>? = null
+    private var mPositionDataList: MutableList<PositionData> = mutableListOf()
     private val mDrawableRect = Rect()
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         if (indicatorDrawable == null) {
             return
         }
-        mPositionDataList?.let {
-            if (it.isEmpty()) {
-                return
-            }
-            // 计算锚点位置
-            val current = getImitativePositionData(it, position)
-            val next = getImitativePositionData(it, position + 1)
-            val leftX: Float
-            val nextLeftX: Float
-            val rightX: Float
-            val nextRightX: Float
-            when (mMode) {
-                MODE_MATCH_EDGE -> {
-                    leftX = current.mLeft + xOffset
-                    nextLeftX = next.mLeft + xOffset
-                    rightX = current.mRight - xOffset
-                    nextRightX = next.mRight - xOffset
-                    mDrawableRect.top = yOffset.toInt()
-                    mDrawableRect.bottom = (height - yOffset).toInt()
-                }
-                MODE_WRAP_CONTENT -> {
-                    leftX = current.mContentLeft + xOffset
-                    nextLeftX = next.mContentLeft + xOffset
-                    rightX = current.mContentRight - xOffset
-                    nextRightX = next.mContentRight - xOffset
-                    mDrawableRect.top = (current.mContentTop - yOffset).toInt()
-                    mDrawableRect.bottom = (current.mContentBottom + yOffset).toInt()
-                }
-                else -> {    // MODE_EXACTLY
-                    leftX = current.mLeft + (current.width() - drawableWidth) / 2
-                    nextLeftX = next.mLeft + (next.width() - drawableWidth) / 2
-                    rightX = current.mLeft + (current.width() + drawableWidth) / 2
-                    nextRightX = next.mLeft + (next.width() + drawableWidth) / 2
-                    mDrawableRect.top = (height - drawableHeight - yOffset).toInt()
-                    mDrawableRect.bottom = (height - yOffset).toInt()
-                }
-            }
-            mDrawableRect.left = (leftX + (nextLeftX - leftX) * startInterpolator.getInterpolation(positionOffset)).toInt()
-            mDrawableRect.right = (rightX + (nextRightX - rightX) * endInterpolator.getInterpolation(positionOffset)).toInt()
-            indicatorDrawable!!.bounds = mDrawableRect
-            invalidate()
+        if (mPositionDataList.isEmpty()) {
+            return
         }
+        // 计算锚点位置
+        val current = getImitativePositionData(mPositionDataList, position)
+        val next = getImitativePositionData(mPositionDataList, position + 1)
+        val leftX: Float
+        val nextLeftX: Float
+        val rightX: Float
+        val nextRightX: Float
+        when (mMode) {
+            MODE_MATCH_EDGE -> {
+                leftX = current.mLeft + xOffset
+                nextLeftX = next.mLeft + xOffset
+                rightX = current.mRight - xOffset
+                nextRightX = next.mRight - xOffset
+                mDrawableRect.top = yOffset.toInt()
+                mDrawableRect.bottom = (height - yOffset).toInt()
+            }
+            MODE_WRAP_CONTENT -> {
+                leftX = current.mContentLeft + xOffset
+                nextLeftX = next.mContentLeft + xOffset
+                rightX = current.mContentRight - xOffset
+                nextRightX = next.mContentRight - xOffset
+                mDrawableRect.top = (current.mContentTop - yOffset).toInt()
+                mDrawableRect.bottom = (current.mContentBottom + yOffset).toInt()
+            }
+            else -> {    // MODE_EXACTLY
+                leftX = current.mLeft + (current.width() - drawableWidth) / 2
+                nextLeftX = next.mLeft + (next.width() - drawableWidth) / 2
+                rightX = current.mLeft + (current.width() + drawableWidth) / 2
+                nextRightX = next.mLeft + (next.width() + drawableWidth) / 2
+                mDrawableRect.top = (height - drawableHeight - yOffset).toInt()
+                mDrawableRect.bottom = (height - yOffset).toInt()
+            }
+        }
+        mDrawableRect.left = (leftX + (nextLeftX - leftX) * startInterpolator.getInterpolation(positionOffset)).toInt()
+        mDrawableRect.right = (rightX + (nextRightX - rightX) * endInterpolator.getInterpolation(positionOffset)).toInt()
+        indicatorDrawable?.bounds = mDrawableRect
+        invalidate()
 
     }
 
     override fun onPageSelected(position: Int) {}
     override fun onPageScrollStateChanged(state: Int) {}
     override fun onDraw(canvas: Canvas) {
-        if (indicatorDrawable != null) {
-            indicatorDrawable!!.draw(canvas)
-        }
+        indicatorDrawable?.draw(canvas)
     }
 
-    override fun onPositionDataProvide(dataList: List<PositionData>?) {
+    override fun onPositionDataProvide(dataList: MutableList<PositionData>) {
         mPositionDataList = dataList
     }
 

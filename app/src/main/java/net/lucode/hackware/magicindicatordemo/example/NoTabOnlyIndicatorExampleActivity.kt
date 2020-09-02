@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_no_tab_only_indicator_example_layout.*
-import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
@@ -20,7 +19,7 @@ import net.lucode.hackware.magicindicatordemo.R
 import java.util.*
 
 class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
-    private val mDataList: List<String>? = Arrays.asList(*CHANNELS)
+    private val mDataList: MutableList<String> =  mutableListOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "NOUGAT", "DONUT")
     private val mExamplePagerAdapter: ExamplePagerAdapter = ExamplePagerAdapter(mDataList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +30,11 @@ class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
     }
 
     private fun initMagicIndicator1() {
-        val magicIndicator: MagicIndicator = findViewById<View>(R.id.magic_indicator1) as MagicIndicator
-        magicIndicator.setBackgroundColor(Color.LTGRAY)
+        magic_indicator1.setBackgroundColor(Color.LTGRAY)
         val commonNavigator = CommonNavigator(this)
         commonNavigator.isAdjustMode = true
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 return DummyPagerTitleView(context)
@@ -50,16 +48,15 @@ class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
                 return indicator
             }
         })
-        magicIndicator.setNavigator(commonNavigator)
-        bind(magicIndicator, view_pager)
+        magic_indicator1.setNavigator(commonNavigator)
+        bind(magic_indicator1, view_pager)
     }
 
     private fun initMagicIndicator2() {
-        val magicIndicator: MagicIndicator = findViewById<View>(R.id.magic_indicator2) as MagicIndicator
         val commonNavigator = CommonNavigator(this)
         commonNavigator.isAdjustMode = true
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-            override val count: Int = mDataList?.size ?: 0
+            override val count: Int = mDataList.size
 
             override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 return DummyPagerTitleView(context)
@@ -75,11 +72,8 @@ class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
                 return indicator
             }
         })
-        magicIndicator.setNavigator(commonNavigator)
-        bind(magicIndicator, view_pager)
+        magic_indicator2.setNavigator(commonNavigator)
+        bind(magic_indicator2, view_pager)
     }
 
-    companion object {
-        private val CHANNELS: Array<String> = arrayOf("CUPCAKE", "DONUT", "ECLAIR", "GINGERBREAD", "NOUGAT", "DONUT")
-    }
 }

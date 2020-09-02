@@ -10,9 +10,9 @@ import androidx.viewpager.widget.PagerAdapter
 /**
  * Created by hackware on 2016/9/10.
  */
-class ExamplePagerAdapter(private val mDataList: List<String>?) : PagerAdapter() {
+class ExamplePagerAdapter(private val mDataList: MutableList<String>) : PagerAdapter() {
     override fun getCount(): Int {
-        return mDataList?.size ?: 0
+        return mDataList.size
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -21,7 +21,7 @@ class ExamplePagerAdapter(private val mDataList: List<String>?) : PagerAdapter()
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val textView = TextView(container.context)
-        textView.text = mDataList!![position]
+        textView.text = mDataList[position]
         textView.gravity = Gravity.CENTER
         textView.setTextColor(Color.BLACK)
         textView.textSize = 24f
@@ -36,13 +36,13 @@ class ExamplePagerAdapter(private val mDataList: List<String>?) : PagerAdapter()
     override fun getItemPosition(`object`: Any): Int {
         val textView = `object` as TextView
         val text = textView.text.toString()
-        val index = mDataList!!.indexOf(text)
+        val index = mDataList.indexOf(text)
         return if (index >= 0) {
             index
         } else POSITION_NONE
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return mDataList!![position]
+        return mDataList[position]
     }
 }

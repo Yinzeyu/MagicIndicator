@@ -63,7 +63,7 @@ class FragmentContainerExampleActivity : AppCompatActivity() {
         for (i in CHANNELS.indices) {
             val testFragment = TestFragment()
             val bundle = Bundle()
-            bundle.putString(TestFragment.EXTRA_TEXT, CHANNELS.get(i))
+            bundle.putString(TestFragment.EXTRA_TEXT, CHANNELS[i])
             testFragment.arguments = bundle
             mFragments.add(testFragment)
         }
@@ -73,12 +73,9 @@ class FragmentContainerExampleActivity : AppCompatActivity() {
         magic_indicator1.setBackgroundResource(R.drawable.round_indicator_bg)
         val commonNavigator = CommonNavigator(this)
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
-
-
             override val count: Int=CHANNELS.size
-
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val clipPagerTitleView = ClipPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val clipPagerTitleView = ClipPagerTitleView(context)
                 clipPagerTitleView.text = CHANNELS[index]
                 clipPagerTitleView.textColor = Color.parseColor("#e94220")
                 clipPagerTitleView.clipColor = Color.WHITE
@@ -89,8 +86,8 @@ class FragmentContainerExampleActivity : AppCompatActivity() {
                 return clipPagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 val navigatorHeight: Float = context.resources.getDimension(R.dimen.common_navigator_height)
                 val borderWidth: Float = dip2px((context), 1.0).toFloat()
                 val lineHeight: Float = navigatorHeight - 2 * borderWidth
