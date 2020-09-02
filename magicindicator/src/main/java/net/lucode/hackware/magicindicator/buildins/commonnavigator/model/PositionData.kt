@@ -5,21 +5,17 @@ package net.lucode.hackware.magicindicator.buildins.commonnavigator.model
  * 博客: http://hackware.lucode.net
  * Created by hackware on 2016/6/26.
  */
-class PositionData {
-    @kotlin.jvm.JvmField
-    var mLeft = 0
-    var mTop = 0
-    @kotlin.jvm.JvmField
-    var mRight = 0
-    var mBottom = 0
-    @kotlin.jvm.JvmField
-    var mContentLeft = 0
-    @kotlin.jvm.JvmField
-    var mContentTop = 0
-    @kotlin.jvm.JvmField
-    var mContentRight = 0
-    @kotlin.jvm.JvmField
-    var mContentBottom = 0
+
+data class PositionData(
+        var mLeft: Int = 0,
+        var mTop: Int = 0,
+        var mRight: Int = 0,
+        var mBottom: Int = 0,
+        var mContentLeft: Int = 0,
+        var mContentTop: Int = 0,
+        var mContentRight: Int = 0,
+        var mContentBottom: Int = 0
+) {
     fun width(): Int {
         return mRight - mLeft
     }

@@ -12,7 +12,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IMeasurab
  * 博客: http://hackware.lucode.net
  * Created by hackware on 2016/7/3.
  */
-class CommonPagerTitleView(context: Context?) : FrameLayout(context!!), IMeasurablePagerTitleView {
+class CommonPagerTitleView(context: Context) : FrameLayout(context), IMeasurablePagerTitleView {
     var onPagerTitleChangeListener: OnPagerTitleChangeListener? = null
     var contentPositionDataProvider: ContentPositionDataProvider? = null
     override fun onSelected(index: Int, totalCount: Int) {
@@ -43,19 +43,17 @@ class CommonPagerTitleView(context: Context?) : FrameLayout(context!!), IMeasura
      *
      * @param contentView
      */
-    fun setContentView(contentView: View?) {
+    fun setContentView(contentView: View) {
         setContentView(contentView, null)
     }
 
-    fun setContentView(contentView: View?, lp: LayoutParams?) {
-        var lp = lp
+    fun setContentView(contentView: View, lp: LayoutParams?) {
+        var ll = lp
         removeAllViews()
-        if (contentView != null) {
-            if (lp == null) {
-                lp = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            }
-            addView(contentView, lp)
+        if (ll == null) {
+            ll = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         }
+        addView(contentView, ll)
     }
 
     fun setContentView(layoutId: Int) {

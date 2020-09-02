@@ -61,8 +61,8 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
     private val mPositionDataList: MutableList<PositionData> = ArrayList()
     private val mObserver: DataSetObserver = object : DataSetObserver() {
         override fun onChanged() {
-            mNavigatorHelper.totalCount = adapter?.count
-                    ?: 0 // 如果使用helper，应始终保证helper中的totalCount为最新
+            // 如果使用helper，应始终保证helper中的totalCount为最新
+            mNavigatorHelper.totalCount = adapter?.count ?: 0
             init()
         }
 
@@ -72,9 +72,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
     }
 
     override fun notifyDataSetChanged() {
-        if (adapter != null) {
-            adapter!!.notifyDataSetChanged()
-        }
+        adapter?.notifyDataSetChanged()
     }
 
     fun setAdapter(adapter: CommonNavigatorAdapter) {
@@ -106,7 +104,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
         }
         mScrollView = root.scroll_view // mAdjustMode为true时，mScrollView为null
         titleContainer = root.title_container
-        titleContainer!!.setPadding(leftPadding, 0, rightPadding, 0)
+        titleContainer?.setPadding(leftPadding, 0, rightPadding, 0)
         mIndicatorContainer = root.indicator_container
         if (isIndicatorOnTop) {
             mIndicatorContainer?.parent?.bringChildToFront(mIndicatorContainer)
@@ -236,7 +234,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
         if (titleContainer == null) {
             return
         }
-        val v = titleContainer!!.getChildAt(index)
+        val v = titleContainer?.getChildAt(index)
         if (v is IPagerTitleView) {
             (v as IPagerTitleView).onEnter(index, totalCount, enterPercent, leftToRight)
         }
@@ -246,7 +244,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
         if (titleContainer == null) {
             return
         }
-        val v = titleContainer!!.getChildAt(index)
+        val v = titleContainer?.getChildAt(index)
         if (v is IPagerTitleView) {
             (v as IPagerTitleView).onLeave(index, totalCount, leavePercent, leftToRight)
         }
@@ -263,36 +261,39 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
         if (titleContainer == null) {
             return
         }
-        val v = titleContainer!!.getChildAt(index)
+        val v = titleContainer?.getChildAt(index)
         if (v is IPagerTitleView) {
             (v as IPagerTitleView).onSelected(index, totalCount)
         }
-        if (!isAdjustMode && !isFollowTouch && mScrollView != null && mPositionDataList.size > 0) {
-            val currentIndex = min(mPositionDataList.size - 1, index)
-            val current = mPositionDataList[currentIndex]
-            if (isEnablePivotScroll) {
-                val scrollTo = current.horizontalCenter() - mScrollView!!.width * scrollPivotX
-                if (isSmoothScroll) {
-                    mScrollView!!.smoothScrollTo(scrollTo.toInt(), 0)
-                } else {
-                    mScrollView!!.scrollTo(scrollTo.toInt(), 0)
-                }
-            } else {
-                // 如果当前项被部分遮挡，则滚动显示完全
-                if (mScrollView!!.scrollX > current.mLeft) {
+        if (!isAdjustMode && !isFollowTouch && mPositionDataList.size > 0) {
+            mScrollView?.let {
+                val currentIndex = min(mPositionDataList.size - 1, index)
+                val current = mPositionDataList[currentIndex]
+                if (isEnablePivotScroll) {
+                    val scrollTo = current.horizontalCenter() - it.width * scrollPivotX
                     if (isSmoothScroll) {
-                        mScrollView!!.smoothScrollTo(current.mLeft, 0)
+                        it.smoothScrollTo(scrollTo.toInt(), 0)
                     } else {
-                        mScrollView!!.scrollTo(current.mLeft, 0)
+                        it.scrollTo(scrollTo.toInt(), 0)
                     }
-                } else if (mScrollView!!.scrollX + width < current.mRight) {
-                    if (isSmoothScroll) {
-                        mScrollView!!.smoothScrollTo(current.mRight - width, 0)
-                    } else {
-                        mScrollView!!.scrollTo(current.mRight - width, 0)
+                } else {
+                    // 如果当前项被部分遮挡，则滚动显示完全
+                    if (it.scrollX > current.mLeft) {
+                        if (isSmoothScroll) {
+                            it.smoothScrollTo(current.mLeft, 0)
+                        } else {
+                            it.scrollTo(current.mLeft, 0)
+                        }
+                    } else if (it.scrollX + width < current.mRight) {
+                        if (isSmoothScroll) {
+                            it.smoothScrollTo(current.mRight - width, 0)
+                        } else {
+                            it.scrollTo(current.mRight - width, 0)
+                        }
                     }
                 }
             }
+
         }
     }
 
@@ -300,7 +301,7 @@ class CommonNavigator(context: Context?) : FrameLayout(context!!), IPagerNavigat
         if (titleContainer == null) {
             return
         }
-        val v = titleContainer!!.getChildAt(index)
+        val v = titleContainer?.getChildAt(index)
         if (v is IPagerTitleView) {
             (v as IPagerTitleView).onDeselected(index, totalCount)
         }

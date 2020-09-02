@@ -20,14 +20,15 @@ import net.lucode.hackware.magicindicator.dip2px
 class TriangularPagerIndicator(context: Context) : View(context), IPagerIndicator {
     private var mPositionDataList: List<PositionData>? = null
     private var mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    var lineHeight =  dip2px(context, 3.0)
+    var lineHeight = dip2px(context, 3.0)
     var lineColor = 0
     var triangleHeight = dip2px(context, 8.0)
-    var triangleWidth =dip2px(context, 14.0)
+    var triangleWidth = dip2px(context, 14.0)
+    var startInterpolator: Interpolator = LinearInterpolator()
     var isReverse = false
     var yOffset = 0f
     private val mPath = Path()
-    private var mStartInterpolator: Interpolator? = LinearInterpolator()
+
     private var mAnchorX = 0f
 
     init {
@@ -66,7 +67,7 @@ class TriangularPagerIndicator(context: Context) : View(context), IPagerIndicato
             val next: PositionData = FragmentContainerHelper.getImitativePositionData(it, position + 1)
             val leftX = current.mLeft + (current.mRight - current.mLeft) / 2.toFloat()
             val rightX = next.mLeft + (next.mRight - next.mLeft) / 2.toFloat()
-            mAnchorX = leftX + (rightX - leftX) * mStartInterpolator!!.getInterpolation(positionOffset)
+            mAnchorX = leftX + (rightX - leftX) * startInterpolator.getInterpolation(positionOffset)
             invalidate()
         }
     }
@@ -76,14 +77,5 @@ class TriangularPagerIndicator(context: Context) : View(context), IPagerIndicato
     override fun onPositionDataProvide(dataList: List<PositionData>?) {
         mPositionDataList = dataList
     }
-
-    var startInterpolator: Interpolator?
-        get() = mStartInterpolator
-        set(startInterpolator) {
-            mStartInterpolator = startInterpolator
-            if (mStartInterpolator == null) {
-                mStartInterpolator = LinearInterpolator()
-            }
-        }
 
 }

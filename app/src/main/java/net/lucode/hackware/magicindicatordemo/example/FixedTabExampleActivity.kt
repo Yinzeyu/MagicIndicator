@@ -11,12 +11,10 @@ import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
 import kotlinx.android.synthetic.main.activity_fixed_tab_example_layout.*
 import net.lucode.hackware.magicindicator.FragmentContainerHelper
-import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -50,8 +48,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#88ffffff")
                 simplePagerTitleView.selectedColor = Color.WHITE
@@ -59,8 +57,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.setColors(Color.parseColor("#40c4ff"))
                 return indicator
             }
@@ -82,7 +80,7 @@ class FixedTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.textSize = 18f
@@ -92,8 +90,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.startInterpolator = AccelerateInterpolator()
                 indicator.endInterpolator = DecelerateInterpolator(1.6f)
                 indicator.yOffset = dip2px((context), 39.0).toFloat()
@@ -102,7 +100,7 @@ class FixedTabExampleActivity : AppCompatActivity() {
                 return indicator
             }
 
-            override fun getTitleWeight(context: Context?, index: Int): Float {
+            override fun getTitleWeight(context: Context, index: Int): Float {
                 return when (index) {
                     0 -> {
                         2.0f
@@ -128,8 +126,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val clipPagerTitleView = ClipPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val clipPagerTitleView = ClipPagerTitleView(context)
                 clipPagerTitleView.text = mDataList!![index]
                 clipPagerTitleView.textColor = Color.parseColor("#e94220")
                 clipPagerTitleView.clipColor = Color.WHITE
@@ -137,8 +135,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
                 return clipPagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 val navigatorHeight: Float = context.resources.getDimension(R.dimen.common_navigator_height)
                 val borderWidth: Float = dip2px((context), 1.0).toFloat()
                 val lineHeight: Float = navigatorHeight - 2 * borderWidth
@@ -160,8 +158,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList!!.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.text = mDataList!![index]
@@ -169,8 +167,8 @@ class FixedTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val linePagerIndicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val linePagerIndicator = LinePagerIndicator(context)
                 linePagerIndicator.mode = LinePagerIndicator.MODE_EXACTLY
                 linePagerIndicator.lineWidth = dip2px((context), 10.0).toFloat()
                 linePagerIndicator.setColors(Color.WHITE)

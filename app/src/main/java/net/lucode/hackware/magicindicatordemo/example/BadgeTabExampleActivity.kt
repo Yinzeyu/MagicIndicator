@@ -14,10 +14,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_badge_tab_example_layout.*
 import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -55,9 +54,9 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 get() = mDataList.size
 
             @SuppressLint("SetTextI18n")
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val badgePagerTitleView = BadgePagerTitleView(context)
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList[index]
                 simplePagerTitleView.normalColor = Color.parseColor("#88ffffff")
                 simplePagerTitleView.selectedColor = Color.WHITE
@@ -94,8 +93,8 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 return badgePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.setColors(Color.parseColor("#40c4ff"))
                 return indicator
             }
@@ -117,7 +116,7 @@ class BadgeTabExampleActivity : AppCompatActivity() {
             override val count: Int
                 get() = mDataList.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val badgePagerTitleView = BadgePagerTitleView(context)
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList[index]
@@ -131,7 +130,7 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 if (index == 1) {
                     val badgeImageView = LayoutInflater.from(context).inflate(R.layout.simple_red_dot_badge_layout, null) as ImageView
                     badgePagerTitleView.badgeView = badgeImageView
-                    badgePagerTitleView.xBadgeRule = BadgeRule(BadgeAnchor.CENTER_X, -dip2px((context)!!, 3.0))
+                    badgePagerTitleView.xBadgeRule = BadgeRule(BadgeAnchor.CENTER_X, -dip2px(context, 3.0))
                     badgePagerTitleView.yBadgeRule = BadgeRule(BadgeAnchor.CONTENT_BOTTOM, dip2px((context), 2.0))
                 }
 
@@ -140,8 +139,8 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 return badgePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.startInterpolator = AccelerateInterpolator()
                 indicator.endInterpolator = DecelerateInterpolator(1.6f)
                 indicator.yOffset = dip2px((context), 39.0).toFloat()
@@ -150,7 +149,7 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 return indicator
             }
 
-            override fun getTitleWeight(context: Context?, index: Int): Float {
+            override fun getTitleWeight(context: Context, index: Int): Float {
                 return when (index) {
                     0 -> {
                         2.0f
@@ -175,9 +174,9 @@ class BadgeTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val badgePagerTitleView = BadgePagerTitleView(context)
-                val clipPagerTitleView = ClipPagerTitleView((context)!!)
+                val clipPagerTitleView = ClipPagerTitleView(context)
                 clipPagerTitleView.text = mDataList[index]
                 clipPagerTitleView.textColor = Color.parseColor("#e94220")
                 clipPagerTitleView.clipColor = Color.WHITE
@@ -186,8 +185,8 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 return badgePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 val navigatorHeight = context.resources.getDimension(R.dimen.common_navigator_height)
                 val borderWidth = dip2px((context), 1.0).toFloat()
                 val lineHeight = navigatorHeight - 2 * borderWidth
@@ -209,9 +208,9 @@ class BadgeTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val badgePagerTitleView = BadgePagerTitleView(context)
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.text = mDataList[index]
@@ -220,8 +219,8 @@ class BadgeTabExampleActivity : AppCompatActivity() {
                 return badgePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val linePagerIndicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val linePagerIndicator = LinePagerIndicator(context)
                 linePagerIndicator.setColors(Color.WHITE)
                 return linePagerIndicator
             }

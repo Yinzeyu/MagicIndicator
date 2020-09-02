@@ -4,10 +4,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_custom_navigator_example_layout.*
 import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.circlenavigator.CircleNavigator
 import net.lucode.hackware.magicindicatordemo.R
 import net.lucode.hackware.magicindicatordemo.ext.navigator.ScaleCircleNavigator

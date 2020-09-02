@@ -9,10 +9,10 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import net.lucode.hackware.magicindicator.FragmentContainerHelper
-import net.lucode.hackware.magicindicator.buildins.ArgbEvaluatorHolder
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.model.PositionData
 import net.lucode.hackware.magicindicator.dip2px
+import net.lucode.hackware.magicindicator.eval
 import java.util.*
 import kotlin.math.abs
 
@@ -27,21 +27,18 @@ class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
     private var mLeftCircleX = 0f
     private var mRightCircleRadius = 0f
     private var mRightCircleX = 0f
-    private var yOffset = 0f
-    var maxCircleRadius = 0f
-    var minCircleRadius = 0f
+    private var yOffset = dip2px(context, 1.5).toFloat()
+    var maxCircleRadius = dip2px(context, 3.5).toFloat()
+    var minCircleRadius = dip2px(context, 2.0).toFloat()
     private var mPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mPath = Path()
      var mColors: MutableList<Int>? = null
     private var mStartInterpolator: Interpolator? = AccelerateInterpolator()
     private var mEndInterpolator: Interpolator? = DecelerateInterpolator()
-    private fun init(context: Context) {
-        mPaint.style = Paint.Style.FILL
-        maxCircleRadius = dip2px(context, 3.5).toFloat()
-        minCircleRadius = dip2px(context, 2.0).toFloat()
-        yOffset = dip2px(context, 1.5).toFloat()
-    }
 
+    init {
+        mPaint.style = Paint.Style.FILL
+    }
     override fun onDraw(canvas: Canvas) {
         canvas.drawCircle(mLeftCircleX, height - yOffset - maxCircleRadius, mLeftCircleRadius, mPaint)
         canvas.drawCircle(mRightCircleX, height - yOffset - maxCircleRadius, mRightCircleRadius, mPaint)
@@ -75,7 +72,7 @@ class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
                 if (color.isNotEmpty()) {
                     val currentColor = color[abs(position) % color.size]
                     val nextColor = color[abs(position + 1) % color.size]
-                    mPaint.color = ArgbEvaluatorHolder.eval(positionOffset, currentColor, nextColor)
+                    mPaint.color = eval(positionOffset, currentColor, nextColor)
                 }
             }
 
@@ -117,9 +114,5 @@ class BezierPagerIndicator(context: Context) : View(context), IPagerIndicator {
         if (mEndInterpolator == null) {
             mEndInterpolator = DecelerateInterpolator()
         }
-    }
-
-    init {
-        init(context)
     }
 }

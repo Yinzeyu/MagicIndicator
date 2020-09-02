@@ -28,9 +28,6 @@ class WrapPagerIndicator(context: Context) : View(context), IPagerIndicator {
     var paint: Paint =  Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRect = RectF()
     private var mRoundRadiusSet = false
-    private fun init(context: Context) {
-
-    }
     init {
         paint.style = Paint.Style.FILL
     }

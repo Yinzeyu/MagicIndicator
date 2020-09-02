@@ -21,10 +21,10 @@ import kotlin.math.min
  * Created by hackware on 2016/6/26.
  */
 class CircleNavigator(context: Context) : View(context), IPagerNavigator {
-    private var mRadius = 0
+    private var mRadius = dip2px(context, 3.0)
     private var mCircleColor = 0
-    private var mStrokeWidth = 0
-    private var mCircleSpacing = 0
+    private var mStrokeWidth =  dip2px(context, 1.0)
+    private var mCircleSpacing = dip2px(context, 8.0)
     private var mCurrentIndex = 0
 
     // 此处不调用invalidate，让外部调用notifyDataSetChanged
@@ -39,9 +39,8 @@ class CircleNavigator(context: Context) : View(context), IPagerNavigator {
     private var mCircleClickListener: OnCircleClickListener? = null
     private var mDownX = 0f
     private var mDownY = 0f
-    private var mTouchSlop = 0
+    private var mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
     var isFollowTouch = true // 是否跟随手指滑动
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec))
     }
@@ -126,6 +125,7 @@ class CircleNavigator(context: Context) : View(context), IPagerNavigator {
         }
     }
 
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
@@ -149,7 +149,7 @@ class CircleNavigator(context: Context) : View(context), IPagerNavigator {
                         }
                         i++
                     }
-                    mCircleClickListener!!.onClick(index)
+                    mCircleClickListener?.onClick(index)
                 }
             }
             else -> {
@@ -178,6 +178,7 @@ class CircleNavigator(context: Context) : View(context), IPagerNavigator {
     }
 
     override fun onDetachFromMagicIndicator() {}
+
     var radius: Int
         get() = mRadius
         set(radius) {
@@ -225,10 +226,5 @@ class CircleNavigator(context: Context) : View(context), IPagerNavigator {
         fun onClick(index: Int)
     }
 
-    init {
-        mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        mRadius = dip2px(context, 3.0)
-        mCircleSpacing = dip2px(context, 8.0)
-        mStrokeWidth = dip2px(context, 1.0)
-    }
+
 }

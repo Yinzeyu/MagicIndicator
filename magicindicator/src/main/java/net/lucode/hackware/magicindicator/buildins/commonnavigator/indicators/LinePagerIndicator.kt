@@ -8,10 +8,10 @@ import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import net.lucode.hackware.magicindicator.FragmentContainerHelper
-import net.lucode.hackware.magicindicator.buildins.ArgbEvaluatorHolder
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.model.PositionData
 import net.lucode.hackware.magicindicator.dip2px
+import net.lucode.hackware.magicindicator.eval
 import java.util.*
 import kotlin.math.abs
 
@@ -23,15 +23,15 @@ import kotlin.math.abs
 class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
     private var mMode = 0 // 默认为MODE_MATCH_EDGE模式
 
-
-    // 控制动画
-    private var mStartInterpolator: Interpolator? = LinearInterpolator()
-    private var mEndInterpolator: Interpolator? = LinearInterpolator()
+    // 默认使用LinearInterpolator  控制动画
+    var startInterpolator: Interpolator = LinearInterpolator()
+    var endInterpolator: Interpolator = LinearInterpolator()
     var yOffset = 0f// 相对于底部的偏移量，如果你想让直线位于title上方，设置它即可
 
-    var lineHeight = 0f
+    var lineHeight = dip2px(context, 3.0).toFloat()
+    var lineWidth = dip2px(context, 10.0).toFloat()
     var xOffset = 0f
-    var lineWidth = 0f
+
     var roundRadius = 0f
     var paint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
         private set
@@ -41,8 +41,6 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
 
     init {
         paint.style = Paint.Style.FILL
-        lineHeight = dip2px(context, 3.0).toFloat()
-        lineWidth = dip2px(context, 10.0).toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -59,7 +57,7 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
                 if (it.isNotEmpty()) {
                     val currentColor = color[abs(position) % color.size]
                     val nextColor = color[abs(position + 1) % color.size]
-                    paint.color = ArgbEvaluatorHolder.eval(positionOffset, currentColor, nextColor)
+                    paint.color = eval(positionOffset, currentColor, nextColor)
                 }
             }
             // 计算锚点位置
@@ -89,8 +87,8 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
                     nextRightX = next.mLeft + (next.width() + lineWidth) / 2
                 }
             }
-            mLineRect.left = leftX + (nextLeftX - leftX) * mStartInterpolator!!.getInterpolation(positionOffset)
-            mLineRect.right = rightX + (nextRightX - rightX) * mEndInterpolator!!.getInterpolation(positionOffset)
+            mLineRect.left = leftX + (nextLeftX - leftX) * startInterpolator.getInterpolation(positionOffset)
+            mLineRect.right = rightX + (nextRightX - rightX) * endInterpolator.getInterpolation(positionOffset)
             mLineRect.top = height - lineHeight - yOffset
             mLineRect.bottom = height - yOffset
             invalidate()
@@ -117,22 +115,22 @@ class LinePagerIndicator(context: Context) : View(context), IPagerIndicator {
         this.colors = Arrays.asList(*colors)
     }
 
-    var startInterpolator: Interpolator?
-        get() = mStartInterpolator
-        set(startInterpolator) {
-            mStartInterpolator = startInterpolator
-            if (mStartInterpolator == null) {
-                mStartInterpolator = LinearInterpolator()
-            }
-        }
-    var endInterpolator: Interpolator?
-        get() = mEndInterpolator
-        set(endInterpolator) {
-            mEndInterpolator = endInterpolator
-            if (mEndInterpolator == null) {
-                mEndInterpolator = LinearInterpolator()
-            }
-        }
+//    var startInterpolator: Interpolator?
+//        get() = mStartInterpolator
+//        set(startInterpolator) {
+//            mStartInterpolator = startInterpolator
+//            if (mStartInterpolator == null) {
+//                mStartInterpolator = LinearInterpolator()
+//            }
+//        }
+//    var endInterpolator: Interpolator?
+//        get() = mEndInterpolator
+//        set(endInterpolator) {
+//            mEndInterpolator = endInterpolator
+//            if (mEndInterpolator == null) {
+//                mEndInterpolator = LinearInterpolator()
+//            }
+//        }
 
     companion object {
         const val MODE_MATCH_EDGE = 0 // 直线宽度 == title宽度 - 2 * mXOffset

@@ -5,10 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_no_tab_only_indicator_example_layout.*
 import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -39,12 +38,12 @@ class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 return DummyPagerTitleView(context)
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 val lineHeight: Float = context.resources.getDimension(R.dimen.small_navigator_height)
                 indicator.lineHeight = lineHeight
                 indicator.setColors(Color.parseColor("#40c4ff"))
@@ -62,12 +61,12 @@ class NoTabOnlyIndicatorExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 return DummyPagerTitleView(context)
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = TriangularPagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = TriangularPagerIndicator(context)
                 indicator.isReverse = true
                 val smallNavigatorHeight: Float = context.resources.getDimension(R.dimen.small_navigator_height)
                 indicator.lineHeight = dip2px((context), 2.0)

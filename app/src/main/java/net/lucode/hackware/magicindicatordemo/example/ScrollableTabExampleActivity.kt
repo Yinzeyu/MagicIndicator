@@ -9,7 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_scrollable_indicator_example_layout.*
 import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -58,8 +58,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
 
             override val count: Int =mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val clipPagerTitleView = ClipPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val clipPagerTitleView = ClipPagerTitleView(context)
                 clipPagerTitleView.text = mDataList!![index]
                 clipPagerTitleView.textColor = Color.parseColor("#f2c4c4")
                 clipPagerTitleView.clipColor = Color.WHITE
@@ -67,7 +67,7 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return clipPagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
+            override fun getIndicator(context: Context): IPagerIndicator? {
                 return null
             }
         })
@@ -84,8 +84,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
 
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView = SimplePagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView = SimplePagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#c8e6c9")
                 simplePagerTitleView.selectedColor = Color.WHITE
@@ -94,8 +94,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.mode = LinePagerIndicator.MODE_EXACTLY
                 indicator.yOffset = dip2px((context), 3.0).toFloat()
                 indicator.setColors(Color.parseColor("#ffffff"))
@@ -112,8 +112,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.normalColor = Color.GRAY
                 simplePagerTitleView.selectedColor = Color.WHITE
                 simplePagerTitleView.text = mDataList!![index]
@@ -121,8 +121,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val linePagerIndicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val linePagerIndicator = LinePagerIndicator(context)
                 linePagerIndicator.mode = LinePagerIndicator.MODE_WRAP_CONTENT
                 linePagerIndicator.setColors(Color.WHITE)
                 return linePagerIndicator
@@ -137,8 +137,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         val commonNavigator = CommonNavigator(this)
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView: SimplePagerTitleView = ColorTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#88ffffff")
                 simplePagerTitleView.selectedColor = Color.WHITE
@@ -146,8 +146,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.setColors(Color.parseColor("#40c4ff"))
                 return indicator
             }
@@ -164,7 +164,7 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.textSize = 18f
@@ -174,8 +174,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.startInterpolator = AccelerateInterpolator()
                 indicator.endInterpolator = DecelerateInterpolator(1.6f)
                 indicator.yOffset = dip2px((context), 39.0).toFloat()
@@ -194,7 +194,7 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ScaleTransitionPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.textSize = 18f
@@ -204,8 +204,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = BezierPagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = BezierPagerIndicator(context)
                 indicator.setColors(Color.parseColor("#ff4a42"), Color.parseColor("#fcde64"), Color.parseColor("#73e8f4"), Color.parseColor("#76b0ff"), Color.parseColor("#c683fe"))
                 return indicator
             }
@@ -220,7 +220,7 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator7.scrollPivotX = 0.65f
         commonNavigator7.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val simplePagerTitleView: SimplePagerTitleView = ColorFlipPagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#9e9e9e")
@@ -229,8 +229,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = LinePagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = LinePagerIndicator(context)
                 indicator.mode = LinePagerIndicator.MODE_EXACTLY
                 indicator.lineHeight = dip2px((context), 6.0).toFloat()
                 indicator.lineWidth = dip2px((context), 10.0).toFloat()
@@ -251,8 +251,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.scrollPivotX = 0.35f
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView = SimplePagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView = SimplePagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#333333")
                 simplePagerTitleView.selectedColor = Color.parseColor("#e94220")
@@ -260,8 +260,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = WrapPagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = WrapPagerIndicator(context)
                 indicator.fillColor = Color.parseColor("#ebe4e3")
                 return indicator
             }
@@ -278,8 +278,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList?.size ?: 0
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
-                val simplePagerTitleView = SimplePagerTitleView((context)!!)
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
+                val simplePagerTitleView = SimplePagerTitleView(context)
                 simplePagerTitleView.text = mDataList!![index]
                 simplePagerTitleView.normalColor = Color.parseColor("#333333")
                 simplePagerTitleView.selectedColor = Color.parseColor("#e94220")
@@ -287,8 +287,8 @@ class ScrollableTabExampleActivity : AppCompatActivity() {
                 return simplePagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
-                val indicator = TriangularPagerIndicator((context)!!)
+            override fun getIndicator(context: Context): IPagerIndicator? {
+                val indicator = TriangularPagerIndicator(context)
                 indicator.lineColor = Color.parseColor("#e94220")
                 return indicator
             }

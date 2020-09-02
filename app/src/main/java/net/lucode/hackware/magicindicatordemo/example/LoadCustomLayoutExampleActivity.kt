@@ -8,10 +8,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_load_custom_layout_example.*
-import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -38,7 +36,7 @@ class LoadCustomLayoutExampleActivity : AppCompatActivity() {
         commonNavigator.setAdapter(object : CommonNavigatorAdapter() {
             override val count: Int = mDataList.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val commonPagerTitleView = CommonPagerTitleView(context)
 
                 // load custom layout
@@ -71,7 +69,7 @@ class LoadCustomLayoutExampleActivity : AppCompatActivity() {
                 return commonPagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
+            override fun getIndicator(context: Context): IPagerIndicator? {
                 return null
             }
         })

@@ -16,11 +16,11 @@ import net.lucode.hackware.magicindicator.dip2px
 open class SimplePagerTitleView(context: Context) : AppCompatTextView(context, null), IMeasurablePagerTitleView {
     var selectedColor = 0
     var normalColor = 0
-    private fun init(context: Context) {
+    init {
         gravity = Gravity.CENTER
         val padding = dip2px(context, 10.0)
         setPadding(padding, 0, padding, 0)
-        setSingleLine()
+        isSingleLine = true
         ellipsize = TextUtils.TruncateAt.END
     }
 
@@ -50,12 +50,9 @@ open class SimplePagerTitleView(context: Context) : AppCompatTextView(context, n
             val contentWidth = bound.width()
             return left + width / 2 - contentWidth / 2
         }
-    override val contentTop: Int
-        get() {
-            val metrics = paint.fontMetrics
-            val contentHeight = metrics.bottom - metrics.top
-            return (height / 2 - contentHeight / 2).toInt()
-        }
+
+
+
     override val contentRight: Int
         get() {
             val bound = Rect()
@@ -72,14 +69,8 @@ open class SimplePagerTitleView(context: Context) : AppCompatTextView(context, n
             val contentWidth = bound.width()
             return left + width / 2 + contentWidth / 2
         }
-    override val contentBottom: Int
-        get() {
-            val metrics = paint.fontMetrics
-            val contentHeight = metrics.bottom - metrics.top
-            return (height / 2 + contentHeight / 2).toInt()
-        }
 
-    init {
-        init(context)
-    }
+    override val contentBottom: Int = (height / 2 + paint.fontMetrics.bottom - paint.fontMetrics.top / 2).toInt()
+
+    override val contentTop: Int =(height / 2 -  paint.fontMetrics.bottom - paint.fontMetrics.top / 2).toInt()
 }

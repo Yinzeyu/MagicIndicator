@@ -113,22 +113,19 @@ class BadgePagerTitleView(context: Context?) : FrameLayout(context!!), IMeasurab
         }
     }
 
-    override val contentLeft: Int
-        get() = if (innerPagerTitleView is IMeasurablePagerTitleView) {
+    override val contentLeft: Int = if (innerPagerTitleView is IMeasurablePagerTitleView) {
             left + (innerPagerTitleView as IMeasurablePagerTitleView).contentLeft
         } else left
-    override val contentTop: Int
-        get() = if (innerPagerTitleView is IMeasurablePagerTitleView) {
-            (innerPagerTitleView as IMeasurablePagerTitleView).contentTop
-        } else top
-    override val contentRight: Int
-        get() = if (innerPagerTitleView is IMeasurablePagerTitleView) {
+    override val contentTop: Int = if (innerPagerTitleView is IMeasurablePagerTitleView) {
+        (innerPagerTitleView as IMeasurablePagerTitleView).contentTop
+    } else top
+    override val contentRight: Int = if (innerPagerTitleView is IMeasurablePagerTitleView) {
             left + (innerPagerTitleView as IMeasurablePagerTitleView).contentRight
         } else right
-    override val contentBottom: Int
-        get() = if (innerPagerTitleView is IMeasurablePagerTitleView) {
+    override val contentBottom: Int = if (innerPagerTitleView is IMeasurablePagerTitleView) {
             (innerPagerTitleView as IMeasurablePagerTitleView).contentBottom
         } else bottom
+
     var xBadgeRule: BadgeRule?
         get() = mXBadgeRule
         set(badgeRule) {

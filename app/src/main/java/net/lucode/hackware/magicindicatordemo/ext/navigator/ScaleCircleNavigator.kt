@@ -14,8 +14,8 @@ import android.view.animation.LinearInterpolator
 import net.lucode.hackware.magicindicator.NavigatorHelper
 import net.lucode.hackware.magicindicator.NavigatorHelper.OnNavigatorScrollListener
 import net.lucode.hackware.magicindicator.abs.IPagerNavigator
-import net.lucode.hackware.magicindicator.buildins.ArgbEvaluatorHolder.eval
 import net.lucode.hackware.magicindicator.dip2px
+import net.lucode.hackware.magicindicator.eval
 import java.util.*
 import kotlin.math.abs
 

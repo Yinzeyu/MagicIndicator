@@ -57,7 +57,7 @@ class ClipPagerTitleView(context: Context) : View(context), IMeasurablePagerTitl
         when (mode) {
             MeasureSpec.AT_MOST -> {
                 val height = mTextBounds.height() + paddingTop + paddingBottom
-                result = Math.min(height, size)
+                result = min(height, size)
             }
             MeasureSpec.UNSPECIFIED -> result = mTextBounds.height() + paddingTop + paddingBottom
             else -> {
@@ -129,28 +129,11 @@ class ClipPagerTitleView(context: Context) : View(context), IMeasurablePagerTitl
             mClipColor = clipColor
             invalidate()
         }
-    override val contentLeft: Int
-        get() {
-            val contentWidth = mTextBounds.width()
-            return left + width / 2 - contentWidth / 2
-        }
-    override val contentTop: Int
-        get() {
-            val metrics = mPaint.fontMetrics
-            val contentHeight = metrics.bottom - metrics.top
-            return (height / 2 - contentHeight / 2).toInt()
-        }
-    override val contentRight: Int
-        get() {
-            val contentWidth = mTextBounds.width()
-            return left + width / 2 + contentWidth / 2
-        }
-    override val contentBottom: Int
-        get() {
-            val metrics = mPaint.fontMetrics
-            val contentHeight = metrics.bottom - metrics.top
-            return (height / 2 + contentHeight / 2).toInt()
-        }
+    override val contentLeft: Int =  left + width / 2 -  mTextBounds.width() / 2
 
+    override val contentTop: Int  =  (height / 2 -  mPaint.fontMetrics.bottom - mPaint.fontMetrics.top / 2).toInt()
 
+    override val contentRight: Int =  left + width / 2 + mTextBounds.width() / 2
+
+    override val contentBottom: Int  =  (height / 2 +  mPaint.fontMetrics.bottom - mPaint.fontMetrics.top / 2).toInt()
 }

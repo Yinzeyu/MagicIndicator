@@ -1,7 +1,7 @@
 package net.lucode.hackware.magicindicator.buildins.commonnavigator.titles
 
 import android.content.Context
-import net.lucode.hackware.magicindicator.buildins.ArgbEvaluatorHolder
+import net.lucode.hackware.magicindicator.eval
 
 /**
  * 两种颜色过渡的指示器标题
@@ -10,11 +10,11 @@ import net.lucode.hackware.magicindicator.buildins.ArgbEvaluatorHolder
  */
 open class ColorTransitionPagerTitleView(context: Context) : SimplePagerTitleView(context) {
     override fun onLeave(index: Int, totalCount: Int, leavePercent: Float, leftToRight: Boolean) {
-        setTextColor(ArgbEvaluatorHolder.eval(leavePercent, selectedColor, normalColor))
+        setTextColor(eval(leavePercent, selectedColor, normalColor))
     }
 
     override fun onEnter(index: Int, totalCount: Int, enterPercent: Float, leftToRight: Boolean) {
-        setTextColor( ArgbEvaluatorHolder.eval(enterPercent, normalColor, selectedColor))
+        setTextColor(eval(enterPercent, normalColor, selectedColor))
     }
 
     override fun onSelected(index: Int, totalCount: Int) {}

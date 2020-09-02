@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_dynamic_tab_example_layout.*
-import net.lucode.hackware.magicindicator.MagicIndicator
-import net.lucode.hackware.magicindicator.ViewPagerHelper.bind
+import net.lucode.hackware.magicindicator.bind
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -33,7 +31,7 @@ class DynamicTabExampleActivity constructor() : AppCompatActivity() {
 
             override val count: Int = mDataList.size
 
-            override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+            override fun getTitleView(context: Context, index: Int): IPagerTitleView? {
                 val clipPagerTitleView = ClipPagerTitleView((context)!!)
                 clipPagerTitleView.text = mDataList[index]
                 clipPagerTitleView.textColor = Color.parseColor("#f2c4c4")
@@ -42,7 +40,7 @@ class DynamicTabExampleActivity constructor() : AppCompatActivity() {
                 return clipPagerTitleView
             }
 
-            override fun getIndicator(context: Context?): IPagerIndicator? {
+            override fun getIndicator(context: Context): IPagerIndicator? {
                 return null
             }
         })
